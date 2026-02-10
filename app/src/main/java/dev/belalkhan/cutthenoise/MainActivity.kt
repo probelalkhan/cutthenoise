@@ -11,16 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dev.belalkhan.cutthenoise.llm.NativeLlmEngine
+import dev.belalkhan.cutthenoise.data.local.llm.LlmInferenceSource
 import dev.belalkhan.cutthenoise.ui.theme.CutTheNoiseTheme
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val engine = NativeLlmEngine(this)
+        val engine = LlmInferenceSource(this)
         val viewmodel = AnalyzerViewModel(engine)
         enableEdgeToEdge()
         setContent {
