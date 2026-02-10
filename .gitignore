@@ -1,0 +1,67 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Android Studio / IntelliJ
+.idea/
+!.idea/codeStyles/
+!.idea/inspectionProfiles/
+*.iml
+*.ipr
+*.iws
+
+# Gradle
+.gradle/
+build/
+**/build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Local config
+local.properties
+keystore.properties
+
+# Outputs
+*.apk
+*.aab
+*.ap_
+*.aar
+
+# Logs / dumps
+*.log
+*.class
+*.hprof
+
+# Native / NDK / CMake
+.cxx/
+.externalNativeBuild/
+cmake-build-*/
+**/.cxx/
+**/.externalNativeBuild/
+
+# NDK build outputs (generated only)
+obj/
+libs/
+**/obj/
+**/libs/
+
+# Debugging
+lldb/
+**/lldb/
+
+# Android tools
+captures/
+
+# Tests / coverage
+coverage/
+*.ec
+*.exec
+
+# Firebase / Crashlytics
+firebase.json
+crashlytics.properties
+
+# Misc
+out/
+tmp/
+.cache/
+app/src/main/assets/*.gguf
