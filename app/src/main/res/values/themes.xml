@@ -3,7 +3,7 @@
 
     <style name="Theme.CutTheNoise" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowSplashScreenBackground">#121212</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_ctn_logo</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_splash_logo</item>
         <item name="android:windowSplashScreenIconBackgroundColor">#121212</item>
         <item name="android:statusBarColor">#121212</item>
         <item name="android:navigationBarColor">#121212</item>
