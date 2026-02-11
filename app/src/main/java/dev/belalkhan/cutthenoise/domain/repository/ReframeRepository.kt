@@ -12,4 +12,6 @@ interface ReframeRepository {
     ): Long
 
     fun getAllReframes(): Flow<List<ReframeEntity>>
+
+    fun getRecentReframes(limit: Int): Flow<List<ReframeEntity>>
 }

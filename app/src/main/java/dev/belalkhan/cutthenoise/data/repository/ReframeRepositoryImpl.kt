@@ -32,4 +32,8 @@ class ReframeRepositoryImpl @Inject constructor(
     override fun getAllReframes(): Flow<List<ReframeEntity>> {
         return dao.getAll()
     }
+
+    override fun getRecentReframes(limit: Int): Flow<List<ReframeEntity>> {
+        return dao.getRecent(limit)
+    }
 }

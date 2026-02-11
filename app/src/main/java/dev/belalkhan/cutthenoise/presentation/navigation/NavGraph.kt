@@ -2,33 +2,37 @@ package dev.belalkhan.cutthenoise.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import dev.belalkhan.cutthenoise.presentation.input.InputScreen
 import dev.belalkhan.cutthenoise.presentation.input.InputViewModel
 import dev.belalkhan.cutthenoise.presentation.result.ResultScreen
 import dev.belalkhan.cutthenoise.presentation.result.ResultViewModel
 
 @Composable
-fun NavGraph() {
-    val navController = rememberNavController()
+fun NavGraph(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Input.route
+        startDestination = Screen.ThoughtInput.route
     ) {
-        composable(route = Screen.Input.route) {
-            val viewModel: InputViewModel = hiltViewModel()
+        composable(route = Screen.ThoughtInput.route) {
              InputScreen(
-                viewModel = viewModel,
+                viewModel = hiltViewModel(),
                 onReframeRequested = { thought ->
-                    navController.navigate(Screen.Result.createRoute(thought))
+                    navController.navigate(Screen.ReframeResult.createRoute(thought))
                 }
             )
         }
 
-        composable(route = Screen.Result.route) {
+        composable(
+            route = Screen.ReframeResult.route,
+            arguments = listOf(navArgument("thought") { type = NavType.StringType })
+        ) {
             // We can scope a shared ViewModel to the nav graph if we wanted to share state
             // directly, but sticking to the plan of separate ViewModels.
             // ResultViewModel will need a way to get the data.
