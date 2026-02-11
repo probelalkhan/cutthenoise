@@ -17,6 +17,10 @@ import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
@@ -81,6 +85,7 @@ fun InputScreen(
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
+        contentWindowInsets = WindowInsets(0, 0, 0, 0), // Disable Scaffold default insets to handle manually
         topBar = {
             // Custom Toolbar matching design structure
             Row(
@@ -147,12 +152,13 @@ fun InputScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerPadding) // This applies Top Bar padding only due to contentWindowInsets(0)
+                .imePadding() // Animate entire screen content effectively pushing bottom element up
         ) {
             // Center Content (Logo + Punchline only)
             Column(
                 modifier = Modifier
-                    .weight(1f)
+                    .weight(1f) // Takes available space
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -178,7 +184,9 @@ fun InputScreen(
 
             // Bottom Section (Recent Cards + Input)
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .navigationBarsPadding() // Ensure it stays above nav bar
             ) {
                 // Recent Cards
                 if (recentReframes.isNotEmpty()) {
@@ -214,7 +222,7 @@ fun InputScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 16.dp, end = 16.dp, bottom = 24.dp)
+                        .padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
                         .clip(RoundedCornerShape(32.dp))
                         .background(DarkCharcoal)
                         .padding(horizontal = 6.dp, vertical = 6.dp) 
