@@ -16,4 +16,6 @@ interface ReframeRepository {
     fun getAllReframes(): Flow<List<ReframeEntity>>
 
     fun getRecentReframes(limit: Int): Flow<List<ReframeEntity>>
+
+    fun searchReframes(query: String): Flow<List<ReframeEntity>>
 }

@@ -42,4 +42,8 @@ class ReframeRepositoryImpl @Inject constructor(
             dao.getById(id)
         }
     }
+
+    override fun searchReframes(query: String): Flow<List<ReframeEntity>> {
+        return dao.search(query)
+    }
 }

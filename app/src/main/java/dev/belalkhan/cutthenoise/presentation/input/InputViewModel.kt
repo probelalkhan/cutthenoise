@@ -13,6 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.belalkhan.cutthenoise.domain.repository.ReframeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -31,10 +32,24 @@ class InputViewModel @Inject constructor(
     private val _isListening = MutableStateFlow(false)
     val isListening: StateFlow<Boolean> = _isListening.asStateFlow()
 
+    private val _drawerSearchQuery = MutableStateFlow("")
+    val drawerSearchQuery = _drawerSearchQuery.asStateFlow()
+
+    @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+    val historySearchResults = _drawerSearchQuery
+        .flatMapLatest { query ->
+            repository.searchReframes(query)
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
     val recentReframes = repository.getRecentReframes(2)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private var speechRecognizer: SpeechRecognizer? = null
+
+    fun onDrawerSearchQueryChanged(query: String) {
+        _drawerSearchQuery.value = query
+    }
 
     fun onInputChanged(input: String) {
         _userInput.value = input

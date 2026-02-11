@@ -22,5 +22,6 @@ interface ReframeDao {
     @Query("SELECT * FROM reframes WHERE id = :id")
     fun getById(id: Long): ReframeEntity?
 
-
+    @Query("SELECT * FROM reframes WHERE thought LIKE '%' || :query || '%' ORDER BY createdAt DESC")
+    fun search(query: String): Flow<List<ReframeEntity>>
 }
