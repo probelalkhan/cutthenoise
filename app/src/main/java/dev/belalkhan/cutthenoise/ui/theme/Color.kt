@@ -21,7 +21,7 @@ val SunsetOrangeOptimist = Color(0xFFF39C12)
 // Text
 val TextPrimary = Color(0xFFE0E0E0)
 val TextSecondary = Color(0xFF9E9E9E)
-val TextOnAccent = Color(0xFF000000)
+val TextOnAccent = Color(0xFF0A1A18)
 
 // Utility
 val ErrorRed = Color(0xFFCF6679)

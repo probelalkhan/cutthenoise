@@ -7,8 +7,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import dev.belalkhan.cutthenoise.presentation.ReframeScreen
-import dev.belalkhan.cutthenoise.presentation.ReframeViewModel
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import dev.belalkhan.cutthenoise.presentation.navigation.NavGraph
 import dev.belalkhan.cutthenoise.ui.theme.CutTheNoiseTheme
 
 @AndroidEntryPoint
@@ -19,8 +22,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CutTheNoiseTheme {
-                val viewModel: ReframeViewModel = hiltViewModel()
-                ReframeScreen(viewModel = viewModel)
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    NavGraph()
+                }
             }
         }
     }
