@@ -50,6 +50,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import dev.belalkhan.cutthenoise.R
 import dev.belalkhan.cutthenoise.presentation.ReframeUiState
 import dev.belalkhan.cutthenoise.presentation.components.ResultCarousel
 import dev.belalkhan.cutthenoise.ui.theme.DarkCharcoal
@@ -87,7 +89,7 @@ fun ResultScreen(
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.back_button),
                             tint = TextPrimary
                         )
                     }
@@ -135,13 +137,13 @@ fun ResultScreen(
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = "Saved to Journal",
+                                    text = stringResource(R.string.saved_to_journal),
                                     style = MaterialTheme.typography.labelLarge,
                                     fontWeight = FontWeight.Bold
                                 )
                             } else {
                                 Text(
-                                    text = "Save Result",
+                                    text = stringResource(R.string.save_result),
                                     style = MaterialTheme.typography.labelLarge,
                                     fontWeight = FontWeight.Bold
                                 )
@@ -177,7 +179,7 @@ fun ResultScreen(
             ) {
                 
                 Text(
-                    text = "YOUR THOUGHT",
+                    text = stringResource(R.string.your_thought),
                     style = MaterialTheme.typography.labelMedium,
                     color = ElectricTeal,
                     fontWeight = FontWeight.Bold,

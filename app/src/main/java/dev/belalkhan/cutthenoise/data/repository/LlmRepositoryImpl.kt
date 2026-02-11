@@ -16,16 +16,12 @@ class LlmRepositoryImpl @Inject constructor(
 
     override fun reframe(persona: Persona, userInput: String): Flow<String> = callbackFlow {
         val prompt = buildPrompt(persona, userInput)
-        val accumulated = StringBuilder()
 
         llmInferenceSource.infer(prompt) { token ->
-            accumulated.append(token)
-            trySend(accumulated.toString())
+            trySend(token)
         }
 
-        
-        channel.close()
-
+        close()
         awaitClose()
     }
 

@@ -26,11 +26,11 @@ class ReframeUseCase @Inject constructor(
         for (persona in Persona.entries) {
             try {
                 
-                var latestContent = ""
-                repository.reframe(persona, userInput).collect { accumulated ->
-                    latestContent = accumulated
+                val contentBuilder = StringBuilder()
+                repository.reframe(persona, userInput).collect { token ->
+                    contentBuilder.append(token)
                     
-                    val inProgressCard = PersonaCard(persona, latestContent)
+                    val inProgressCard = PersonaCard(persona, contentBuilder.toString())
                     emit(
                         ReframeState.Processing(
                             completedCards + inProgressCard
@@ -39,7 +39,7 @@ class ReframeUseCase @Inject constructor(
                 }
 
                 
-                completedCards.add(PersonaCard(persona, latestContent))
+                completedCards.add(PersonaCard(persona, contentBuilder.toString()))
                 emit(ReframeState.Processing(completedCards.toList()))
             } catch (e: Exception) {
                 emit(ReframeState.Error("Failed to generate ${persona.title}: ${e.message}"))

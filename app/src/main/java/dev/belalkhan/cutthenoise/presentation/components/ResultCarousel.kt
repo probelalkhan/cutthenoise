@@ -24,6 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import dev.belalkhan.cutthenoise.R
 import dev.belalkhan.cutthenoise.presentation.PersonaCardUi
 import dev.belalkhan.cutthenoise.ui.theme.DividerDark
 import dev.belalkhan.cutthenoise.ui.theme.TextSecondary
@@ -90,7 +92,7 @@ fun ResultCarousel(
         if (cards.size > 1) {
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "Swipe to explore perspectives",
+                text = stringResource(R.string.swipe_hint),
                 style = MaterialTheme.typography.labelSmall,
                 color = TextSecondary.copy(alpha = 0.5f),
                 textAlign = TextAlign.Center,

@@ -27,6 +27,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import dev.belalkhan.cutthenoise.R
 import dev.belalkhan.cutthenoise.presentation.PersonaCardUi
 import dev.belalkhan.cutthenoise.ui.theme.DarkCharcoal
 import dev.belalkhan.cutthenoise.ui.theme.TextSecondary
@@ -149,7 +151,7 @@ fun PersonaCardComposable(
                         )
                     } else if (cardUi.isGenerating) {
                         Text(
-                            text = "Contemplating...",
+                            text = stringResource(R.string.contemplating),
                             style = MaterialTheme.typography.bodyMedium,
                             color = accentColor.copy(alpha = 0.5f),
                             fontStyle = FontStyle.Italic

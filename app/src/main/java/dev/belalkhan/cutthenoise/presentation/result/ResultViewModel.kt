@@ -37,9 +37,11 @@ class ResultViewModel @Inject constructor(
         private set
 
     init {
-        val rawInput = checkNotNull(savedStateHandle.get<String>("thought"))
+        val rawInput = savedStateHandle.get<String>("thought")
         
-        if (rawInput.startsWith("id:")) {
+        if (rawInput == null) {
+            _uiState.value = ReframeUiState.Error("Missing thought input")
+        } else if (rawInput.startsWith("id:")) {
             val id = rawInput.removePrefix("id:").toLongOrNull()
             if (id != null) {
                 loadReframe(id)
