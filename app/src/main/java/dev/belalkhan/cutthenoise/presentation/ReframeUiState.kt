@@ -9,6 +9,10 @@ sealed interface ReframeUiState {
         val cards: List<PersonaCardUi>
     ) : ReframeUiState
 
+    data class Done(
+        val cards: List<PersonaCardUi>
+    ) : ReframeUiState
+
     data class Error(val message: String) : ReframeUiState
 }
 

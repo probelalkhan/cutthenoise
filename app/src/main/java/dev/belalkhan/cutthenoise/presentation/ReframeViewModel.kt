@@ -45,7 +45,9 @@ class ReframeViewModel @Inject constructor(
                 val totalPersonas = Persona.entries.size
                 val cards = state.completedCards.mapIndexed { index, card ->
                     val isLast = index == state.completedCards.lastIndex
-                    val isStillStreaming = isLast && state.completedCards.size <= totalPersonas
+                    // Only mark as generating if this is the last card AND
+                    // we haven't completed all personas yet
+                    val isStillStreaming = isLast && state.completedCards.size < totalPersonas
                     PersonaCardUi(
                         persona = card.persona,
                         content = card.content,
@@ -53,6 +55,17 @@ class ReframeViewModel @Inject constructor(
                     )
                 }
                 ReframeUiState.Processing(cards = cards)
+            }
+
+            is ReframeState.Done -> {
+                val cards = state.completedCards.map { card ->
+                    PersonaCardUi(
+                        persona = card.persona,
+                        content = card.content,
+                        isGenerating = false
+                    )
+                }
+                ReframeUiState.Done(cards = cards)
             }
 
             is ReframeState.Error -> ReframeUiState.Error(state.message)

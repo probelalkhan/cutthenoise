@@ -144,6 +144,7 @@ fun ReframeScreen(
                 // Results
                 val cards = when (val state = uiState) {
                     is ReframeUiState.Processing -> state.cards
+                    is ReframeUiState.Done -> state.cards
                     else -> emptyList()
                 }
 

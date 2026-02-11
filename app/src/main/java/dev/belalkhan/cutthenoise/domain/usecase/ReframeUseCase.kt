@@ -46,5 +46,8 @@ class ReframeUseCase @Inject constructor(
                 return@flow
             }
         }
+
+        // All personas completed — signal done
+        emit(ReframeState.Done(completedCards.toList()))
     }
 }
