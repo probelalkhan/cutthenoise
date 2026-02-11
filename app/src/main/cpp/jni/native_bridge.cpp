@@ -16,7 +16,7 @@ extern "C"
 JNIEXPORT void JNICALL
 Java_dev_belalkhan_cutthenoise_data_local_llm_NativeLlmBridge_initModel(
         JNIEnv *env,
-        jobject /* this */,
+        jobject,
         jstring modelPath
 ) {
     const char *path = GetStringUTFChars(env, modelPath);
@@ -30,7 +30,7 @@ extern "C"
 JNIEXPORT jstring JNICALL
 Java_dev_belalkhan_cutthenoise_data_local_llm_NativeLlmBridge_runInference(
         JNIEnv *env,
-        jobject /* this */,
+        jobject,
         jstring prompt,
         jobject callback
 ) {
