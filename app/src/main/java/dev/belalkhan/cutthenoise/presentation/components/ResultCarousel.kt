@@ -13,19 +13,23 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.belalkhan.cutthenoise.presentation.PersonaCardUi
-import dev.belalkhan.cutthenoise.ui.theme.ElectricTeal
 import dev.belalkhan.cutthenoise.ui.theme.DividerDark
+import dev.belalkhan.cutthenoise.ui.theme.TextSecondary
 
 /**
  * Horizontal pager that allows users to swipe through the generated persona cards.
- * Includes page indicator dots at the bottom.
+ * Includes page indicator dots and a "swipe" hint.
  */
 @Composable
 fun ResultCarousel(
@@ -51,7 +55,7 @@ fun ResultCarousel(
             )
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         // Page indicators
         Row(
@@ -66,16 +70,29 @@ fun ResultCarousel(
                 } else {
                     DividerDark
                 }
-                val size = if (isSelected) 10.dp else 7.dp
+                val dotWidth = if (isSelected) 24.dp else 8.dp
+                val dotHeight = 8.dp
 
                 Box(
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
-                        .size(size)
+                        .size(width = dotWidth, height = dotHeight)
                         .clip(CircleShape)
                         .background(color)
                 )
             }
+        }
+
+        // Swipe hint
+        if (cards.size > 1) {
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = "Swipe to explore perspectives",
+                style = MaterialTheme.typography.labelSmall,
+                color = TextSecondary.copy(alpha = 0.5f),
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Normal
+            )
         }
     }
 }

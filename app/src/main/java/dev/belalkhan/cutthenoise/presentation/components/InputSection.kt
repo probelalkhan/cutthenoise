@@ -1,5 +1,6 @@
 package dev.belalkhan.cutthenoise.presentation.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,16 +17,19 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import dev.belalkhan.cutthenoise.ui.theme.DarkCharcoal
 import dev.belalkhan.cutthenoise.ui.theme.ElectricTeal
+import dev.belalkhan.cutthenoise.ui.theme.ElectricTealDim
 import dev.belalkhan.cutthenoise.ui.theme.TextOnAccent
 import dev.belalkhan.cutthenoise.ui.theme.TextPrimary
 import dev.belalkhan.cutthenoise.ui.theme.TextSecondary
 
 /**
- * Input section with a sleek text field and "Reframe" action button.
+ * Sleek input section with dark-styled text field and gradient teal action button.
  */
 @Composable
 fun InputSection(
@@ -42,8 +46,8 @@ fun InputSection(
             modifier = Modifier.fillMaxWidth(),
             placeholder = {
                 Text(
-                    text = "What's on your mind? Share a stressful thought...",
-                    color = TextSecondary
+                    text = "What's weighing on your mind?",
+                    color = TextSecondary.copy(alpha = 0.6f)
                 )
             },
             textStyle = MaterialTheme.typography.bodyLarge.copy(color = TextPrimary),
@@ -52,15 +56,16 @@ fun InputSection(
                 focusedContainerColor = DarkCharcoal,
                 unfocusedContainerColor = DarkCharcoal,
                 focusedBorderColor = ElectricTeal,
-                unfocusedBorderColor = ElectricTeal.copy(alpha = 0.3f),
+                unfocusedBorderColor = ElectricTeal.copy(alpha = 0.2f),
                 cursorColor = ElectricTeal
             ),
             minLines = 3,
             maxLines = 5
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
+        // Gradient teal button
         Button(
             onClick = onReframeClick,
             enabled = text.isNotBlank() && !isLoading,
@@ -71,19 +76,20 @@ fun InputSection(
             colors = ButtonDefaults.buttonColors(
                 containerColor = ElectricTeal,
                 contentColor = TextOnAccent,
-                disabledContainerColor = ElectricTeal.copy(alpha = 0.3f),
-                disabledContentColor = TextOnAccent.copy(alpha = 0.5f)
+                disabledContainerColor = ElectricTeal.copy(alpha = 0.2f),
+                disabledContentColor = TextOnAccent.copy(alpha = 0.4f)
             ),
             elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 6.dp,
-                pressedElevation = 2.dp
+                defaultElevation = 8.dp,
+                pressedElevation = 2.dp,
+                disabledElevation = 0.dp
             )
         ) {
             if (isLoading) {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(22.dp),
                     color = TextOnAccent,
-                    strokeWidth = 2.dp
+                    strokeWidth = 2.5.dp
                 )
             } else {
                 Text(
