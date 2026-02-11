@@ -96,91 +96,16 @@ fun ResultScreen(
                     containerColor = Color.Transparent
                 )
             )
-        }
-    ) { innerPadding ->
-
-        
-        Box(modifier = Modifier.fillMaxSize()) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp)
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                ElectricTeal.copy(alpha = 0.04f),
-                                NightBlack
-                            )
-                        )
-                    )
-            )
-
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(horizontal = 20.dp)
-                    .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally
+        },
+        bottomBar = {
+            AnimatedVisibility(
+                visible = uiState is ReframeUiState.Done,
+                enter = fadeIn() + slideInVertically { it / 2 }
             ) {
-                
-                Text(
-                    text = "YOUR THOUGHT",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = ElectricTeal,
-                    fontWeight = FontWeight.Bold,
-                    letterSpacing = 2.sp
-                )
-                
-                Spacer(modifier = Modifier.height(12.dp))
-
-                Card(
-                    colors = CardDefaults.cardColors(
-                        containerColor = DarkCharcoal.copy(alpha = 0.5f)
-                    ),
-                    shape = RoundedCornerShape(16.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = viewModel.thought,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = TextPrimary.copy(alpha = 0.9f),
-                        modifier = Modifier.padding(20.dp),
-                        fontStyle = FontStyle.Italic
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                
-                val cards = when (val state = uiState) {
-                    is ReframeUiState.Processing -> state.cards
-                    is ReframeUiState.Done -> state.cards
-                    else -> emptyList()
-                }
-
-                AnimatedVisibility(
-                    visible = cards.isNotEmpty(),
-                    enter = fadeIn(animationSpec = spring(stiffness = Spring.StiffnessLow)) +
-                            slideInVertically(
-                                animationSpec = spring(
-                                    dampingRatio = Spring.DampingRatioMediumBouncy,
-                                    stiffness = Spring.StiffnessLow
-                                )
-                            ) { it / 3 }
-                ) {
-                    ResultCarousel(
-                        cards = cards,
-                        modifier = Modifier
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-                
-                AnimatedVisibility(
-                    visible = uiState is ReframeUiState.Done,
-                    enter = fadeIn() + slideInVertically { it / 2 }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 20.dp, vertical = 20.dp)
                 ) {
                     Button(
                         onClick = viewModel::saveResult,
@@ -224,8 +149,85 @@ fun ResultScreen(
                         }
                     }
                 }
+            }
+        }
+    ) { innerPadding ->
 
-                Spacer(modifier = Modifier.height(32.dp))
+        Box(modifier = Modifier.fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                ElectricTeal.copy(alpha = 0.04f),
+                                NightBlack
+                            )
+                        )
+                    )
+            )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+                    .padding(horizontal = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                
+                Text(
+                    text = "YOUR THOUGHT",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = ElectricTeal,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 2.sp
+                )
+                
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = DarkCharcoal.copy(alpha = 0.5f)
+                    ),
+                    shape = RoundedCornerShape(16.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = viewModel.thought,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = TextPrimary.copy(alpha = 0.9f),
+                        modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+                        fontStyle = FontStyle.Italic
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                val cards = when (val state = uiState) {
+                    is ReframeUiState.Processing -> state.cards
+                    is ReframeUiState.Done -> state.cards
+                    else -> emptyList()
+                }
+
+                AnimatedVisibility(
+                    visible = cards.isNotEmpty(),
+                    enter = fadeIn(animationSpec = spring(stiffness = Spring.StiffnessLow)) +
+                            slideInVertically(
+                                animationSpec = spring(
+                                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                                    stiffness = Spring.StiffnessLow
+                                )
+                            ) { it / 3 },
+                    modifier = Modifier.weight(1f)
+                ) {
+                    ResultCarousel(
+                        cards = cards,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+                
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

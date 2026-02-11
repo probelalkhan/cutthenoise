@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -68,8 +70,7 @@ fun PersonaCardComposable(
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
+                .fillMaxSize()
         ) {
             
             Box(
@@ -88,7 +89,7 @@ fun PersonaCardComposable(
 
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .padding(horizontal = 24.dp, vertical = 22.dp)
             ) {
                 
@@ -117,7 +118,6 @@ fun PersonaCardComposable(
 
                 Spacer(modifier = Modifier.height(18.dp))
 
-                
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -134,21 +134,27 @@ fun PersonaCardComposable(
 
                 Spacer(modifier = Modifier.height(18.dp))
 
-                
-                if (cardUi.content.isNotBlank()) {
-                    TypewriterText(
-                        fullText = cardUi.content.trim(),
-                        isAnimating = cardUi.isGenerating,
-                        shouldAnimate = cardUi.shouldAnimate,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                } else if (cardUi.isGenerating) {
-                    Text(
-                        text = "Contemplating...",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = accentColor.copy(alpha = 0.5f),
-                        fontStyle = FontStyle.Italic
-                    )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .verticalScroll(androidx.compose.foundation.rememberScrollState())
+                ) {
+                    if (cardUi.content.isNotBlank()) {
+                        TypewriterText(
+                            fullText = cardUi.content.trim(),
+                            isAnimating = cardUi.isGenerating,
+                            shouldAnimate = cardUi.shouldAnimate,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    } else if (cardUi.isGenerating) {
+                        Text(
+                            text = "Contemplating...",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = accentColor.copy(alpha = 0.5f),
+                            fontStyle = FontStyle.Italic
+                        )
+                    }
                 }
             }
         }

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -46,18 +47,21 @@ fun ResultCarousel(
     ) {
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
             pageSpacing = 16.dp
         ) { page ->
             PersonaCardComposable(
                 cardUi = cards[page],
-                modifier = Modifier.padding(horizontal = 4.dp)
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(horizontal = 4.dp)
             )
         }
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -83,7 +87,6 @@ fun ResultCarousel(
             }
         }
 
-        
         if (cards.size > 1) {
             Spacer(modifier = Modifier.height(10.dp))
             Text(
