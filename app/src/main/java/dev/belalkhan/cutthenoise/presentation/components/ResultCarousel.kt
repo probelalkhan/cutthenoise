@@ -57,7 +57,7 @@ fun ResultCarousel(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Page indicators
+        
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
@@ -83,7 +83,7 @@ fun ResultCarousel(
             }
         }
 
-        // Swipe hint
+        
         if (cards.size > 1) {
             Spacer(modifier = Modifier.height(10.dp))
             Text(

@@ -65,7 +65,7 @@ fun InputSection(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Gradient teal button
+        
         Button(
             onClick = onReframeClick,
             enabled = text.isNotBlank() && !isLoading,

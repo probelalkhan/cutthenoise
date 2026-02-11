@@ -99,7 +99,7 @@ fun ResultScreen(
         }
     ) { innerPadding ->
 
-        // Subtle top gradient glow
+        
         Box(modifier = Modifier.fillMaxSize()) {
             Box(
                 modifier = Modifier
@@ -123,7 +123,7 @@ fun ResultScreen(
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // User's thought Display
+                
                 Text(
                     text = "YOUR THOUGHT",
                     style = MaterialTheme.typography.labelMedium,
@@ -152,7 +152,7 @@ fun ResultScreen(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Results Carousel
+                
                 val cards = when (val state = uiState) {
                     is ReframeUiState.Processing -> state.cards
                     is ReframeUiState.Done -> state.cards
@@ -177,7 +177,7 @@ fun ResultScreen(
 
                 Spacer(modifier = Modifier.height(32.dp))
 
-                // Save Button (Only show when done)
+                
                 AnimatedVisibility(
                     visible = uiState is ReframeUiState.Done,
                     enter = fadeIn() + slideInVertically { it / 2 }

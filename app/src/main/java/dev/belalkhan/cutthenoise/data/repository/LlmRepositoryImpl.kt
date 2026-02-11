@@ -23,7 +23,7 @@ class LlmRepositoryImpl @Inject constructor(
             trySend(accumulated.toString())
         }
 
-        // Inference complete
+        
         channel.close()
 
         awaitClose()

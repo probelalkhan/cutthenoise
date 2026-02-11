@@ -44,6 +44,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -82,17 +83,17 @@ fun InputScreen(
     val isListening by viewModel.isListening.collectAsState()
     val recentReframes by viewModel.recentReframes.collectAsState()
     
-    // Drawer & Search States
+    
     val drawerState = androidx.compose.material3.rememberDrawerState(initialValue = androidx.compose.material3.DrawerValue.Closed)
     val scope = androidx.compose.runtime.rememberCoroutineScope()
     val drawerSearchQuery by viewModel.drawerSearchQuery.collectAsState()
     val historyResults by viewModel.historySearchResults.collectAsState()
     var showAboutDialog by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(false) }
 
-    // Focus Requester to focus input when "Edit" (New Chat) is clicked
+    
     val inputFocusRequester = androidx.compose.runtime.remember { androidx.compose.ui.focus.FocusRequester() }
 
-    // Permission launcher for voice input
+    
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -141,19 +142,18 @@ fun InputScreen(
             androidx.compose.material3.ModalDrawerSheet(
                 drawerContainerColor = NightBlack,
                 drawerContentColor = TextPrimary,
-                modifier = Modifier.width(300.dp) // Fixed width for drawer
+                modifier = Modifier.width(300.dp) 
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    // Top Section: Search & Edit
+                    
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Search Bar
                         BasicTextField(
                             value = drawerSearchQuery,
                             onValueChange = viewModel::onDrawerSearchQueryChanged,
@@ -175,7 +175,7 @@ fun InputScreen(
                                         modifier = Modifier.size(20.dp)
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
-                                    Box {
+                                    Box(modifier = Modifier.weight(1f)) {
                                         if (drawerSearchQuery.isEmpty()) {
                                             Text(
                                                 text = "Search",
@@ -185,32 +185,23 @@ fun InputScreen(
                                         }
                                         innerTextField()
                                     }
+                                    if (drawerSearchQuery.isNotEmpty()) {
+                                        Icon(
+                                            imageVector = Icons.Default.Clear,
+                                            contentDescription = "Clear Search",
+                                            tint = TextSecondary,
+                                            modifier = Modifier
+                                                .size(20.dp)
+                                                .clickable { viewModel.onDrawerSearchQueryChanged("") }
+                                        )
+                                    }
                                 }
-                            }
+                            },
+                            modifier = Modifier.weight(1f)
                         )
-                        
-                        Spacer(modifier = Modifier.width(12.dp))
-
-                        // Edit / New Chat Button
-                        IconButton(
-                            onClick = {
-                                scope.launch {
-                                    drawerState.close()
-                                    // Slight delay to allow drawer close animation to start
-                                    kotlinx.coroutines.delay(100) 
-                                    inputFocusRequester.requestFocus()
-                                }
-                            }
-                        ) {
-                           Icon(
-                               imageVector = Icons.Default.Edit,
-                               contentDescription = "New Chat",
-                               tint = TextPrimary
-                           )
-                        }
                     }
 
-                    // History List (Paginated / LazyColumn)
+                    
                     androidx.compose.foundation.lazy.LazyColumn(
                         modifier = Modifier
                             .weight(1f)
@@ -218,7 +209,7 @@ fun InputScreen(
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        // Section Header
+                        
                         item {
                             Text(
                                 text = "Previous Reframes",
@@ -246,7 +237,7 @@ fun InputScreen(
                         }
                     }
 
-                    // Sticky About Button
+                    
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -279,9 +270,9 @@ fun InputScreen(
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
-        contentWindowInsets = WindowInsets(0, 0, 0, 0), // Disable Scaffold default insets to handle manually
+        contentWindowInsets = WindowInsets(0, 0, 0, 0), 
         topBar = {
-            // Custom Toolbar matching design structure
+            
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -290,14 +281,14 @@ fun InputScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Start
             ) {
-                // Navigation Drawer Button (Circle with 2 lines)
+                
                 Box(
                     modifier = Modifier
                         .size(40.dp)
                         .clip(CircleShape)
                         .background(DarkCharcoal)
                         .clickable { 
-                            scope.launch { drawerState.open() } // Open drawer
+                            scope.launch { drawerState.open() } 
                         },
                     contentAlignment = Alignment.Center
                 ) {
@@ -306,7 +297,7 @@ fun InputScreen(
                        val width = size.width
                        val height = size.height
                        
-                       // Top line (longer)
+                       
                        drawLine(
                            color = TextPrimary,
                            start = androidx.compose.ui.geometry.Offset(0f, height * 0.3f),
@@ -315,7 +306,7 @@ fun InputScreen(
                            cap = androidx.compose.ui.graphics.StrokeCap.Round
                        )
                        
-                       // Bottom line (shorter)
+                       
                        drawLine(
                            color = TextPrimary,
                            start = androidx.compose.ui.geometry.Offset(0f, height * 0.7f),
@@ -328,16 +319,16 @@ fun InputScreen(
 
                 Spacer(modifier = Modifier.width(12.dp))
 
-                // "CutTheNoise" Pill Label
+                
                 Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(24.dp)) // More rounded pill shape
-                        .background(DarkCharcoal) // Matching button bg 
-                        .padding(horizontal = 20.dp, vertical = 10.dp) // Generous padding like in image
+                        .clip(RoundedCornerShape(24.dp)) 
+                        .background(DarkCharcoal) 
+                        .padding(horizontal = 20.dp, vertical = 10.dp) 
                 ) {
                    Text(
                        text = "CutTheNoise",
-                       style = MaterialTheme.typography.titleMedium, // Slightly larger
+                       style = MaterialTheme.typography.titleMedium, 
                        color = TextPrimary,
                        fontWeight = FontWeight.SemiBold
                    )
@@ -348,19 +339,19 @@ fun InputScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding) // This applies Top Bar padding only due to contentWindowInsets(0)
-                .imePadding() // Animate entire screen content effectively pushing bottom element up
+                .padding(innerPadding) 
+                .imePadding() 
         ) {
-            // Center Content (Logo + Punchline only)
+            
             Column(
                 modifier = Modifier
-                    .weight(1f) // Takes available space
+                    .weight(1f) 
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                 // Logo
+                 
                 Image(
                     painter = painterResource(id = R.drawable.ic_ctn_logo),
                     contentDescription = "CutTheNoise Logo",
@@ -369,22 +360,22 @@ fun InputScreen(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Punchline (Increased size)
+                
                 Text(
                     text = "Reframe your stress\nthrough 3 perspectives",
                     style = MaterialTheme.typography.titleLarge,
-                    color = TextSecondary.copy(alpha = 0.5f), // Increased alpha
+                    color = TextSecondary.copy(alpha = 0.5f), 
                     textAlign = TextAlign.Center
                 )
             }
 
-            // Bottom Section (Recent Cards + Input)
+            
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .navigationBarsPadding() // Ensure it stays above nav bar
+                    .navigationBarsPadding() 
             ) {
-                // Recent Cards
+                
                 if (recentReframes.isNotEmpty()) {
                     LazyRow(
                         contentPadding = PaddingValues(horizontal = 16.dp),
@@ -403,7 +394,7 @@ fun InputScreen(
                                 Column(modifier = Modifier.padding(12.dp)) {
                                     Text(
                                         text = reframe.thought,
-                                        style = MaterialTheme.typography.bodyMedium, // Increased from bodySmall
+                                        style = MaterialTheme.typography.bodyMedium, 
                                         color = TextPrimary,
                                         maxLines = 3,
                                         overflow = TextOverflow.Ellipsis
@@ -414,7 +405,7 @@ fun InputScreen(
                     }
                 }
 
-                // Input Bar
+                
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -427,7 +418,7 @@ fun InputScreen(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                         // Voice Button
+                         
                          IconButton(
                              onClick = {
                                  if (isListening) viewModel.stopListening()
@@ -449,11 +440,10 @@ fun InputScreen(
                          
                          Spacer(modifier = Modifier.width(4.dp))
                          
-                         // Text Input
                          Box(
                              modifier = Modifier
                                  .weight(1f)
-                                 .padding(vertical = 12.dp),
+                                 .padding(vertical = 12.dp, horizontal = 8.dp),
                              contentAlignment = Alignment.CenterStart
                          ) {
                              if (userInput.isEmpty() && !isListening) {
@@ -471,8 +461,7 @@ fun InputScreen(
                                      fontSize = 16.sp
                                  ),
                                  cursorBrush = SolidColor(ElectricTeal),
-                                 maxLines = 1,
-                                 singleLine = true,
+                                 maxLines = 4,
                                  modifier = Modifier
                                      .fillMaxWidth()
                                      .focusRequester(inputFocusRequester)
@@ -481,7 +470,7 @@ fun InputScreen(
                          
                          Spacer(modifier = Modifier.width(4.dp))
                          
-                         // Send Button
+                         
                          val isSendEnabled = userInput.isNotBlank()
                          IconButton(
                              onClick = { if (isSendEnabled) onReframeRequested(userInput) },

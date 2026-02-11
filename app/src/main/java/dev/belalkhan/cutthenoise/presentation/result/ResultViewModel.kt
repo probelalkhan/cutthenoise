@@ -32,7 +32,7 @@ class ResultViewModel @Inject constructor(
     private val _isSaved = MutableStateFlow(false)
     val isSaved: StateFlow<Boolean> = _isSaved.asStateFlow()
 
-    // The thought text, updated either from args or DB
+    
     var thought by mutableStateOf("")
         private set
 
@@ -59,7 +59,7 @@ class ResultViewModel @Inject constructor(
                 thought = entity.thought
                 _isSaved.value = true
                 
-                // Create Done state with no animation
+                
                 val cards = listOf(
                     PersonaCardUi(Persona.STOIC, entity.stoicResponse, isGenerating = false, shouldAnimate = false),
                     PersonaCardUi(Persona.STRATEGIST, entity.strategistResponse, isGenerating = false, shouldAnimate = false),
@@ -115,7 +115,7 @@ class ResultViewModel @Inject constructor(
                         persona = card.persona,
                         content = card.content,
                         isGenerating = isStillStreaming,
-                        shouldAnimate = true // Always animate for new generation
+                        shouldAnimate = true 
                     )
                 }
                 ReframeUiState.Processing(cards = cards)
@@ -127,7 +127,7 @@ class ResultViewModel @Inject constructor(
                         persona = card.persona,
                         content = card.content,
                         isGenerating = false,
-                        shouldAnimate = true // Maintained for consistency if verifying
+                        shouldAnimate = true 
                     )
                 }
                 ReframeUiState.Done(cards = cards)

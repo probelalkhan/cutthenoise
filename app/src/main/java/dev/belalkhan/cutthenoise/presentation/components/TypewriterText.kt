@@ -47,24 +47,24 @@ fun TypewriterText(
     }
     var hasCompletedOnce by rememberSaveable { mutableStateOf(!shouldAnimate) }
 
-    // If the text was already fully revealed once, show it instantly
+    
     if (hasCompletedOnce && visibleCharCount < targetCount) {
         visibleCharCount = targetCount
     }
 
-    // Animate character count towards the full text length
+    
     LaunchedEffect(fullText) {
         while (visibleCharCount < targetCount) {
             visibleCharCount++
             delay(charDelayMs)
         }
-        // Mark this text as having completed its animation
+        
         if (visibleCharCount >= targetCount && targetCount > 0) {
             hasCompletedOnce = true
         }
     }
 
-    // Blinking cursor animation
+    
     val infiniteTransition = rememberInfiniteTransition(label = "cursor_blink")
     val cursorAlpha by infiniteTransition.animateFloat(
         initialValue = 1f,
@@ -82,7 +82,7 @@ fun TypewriterText(
             append(visibleText)
         }
 
-        // Blinking cursor only while actively generating and not fully revealed
+        
         if (isAnimating && visibleCharCount < targetCount) {
             withStyle(
                 SpanStyle(

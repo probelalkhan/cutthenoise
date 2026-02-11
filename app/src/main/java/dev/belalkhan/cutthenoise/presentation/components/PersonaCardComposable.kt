@@ -71,7 +71,7 @@ fun PersonaCardComposable(
                 .fillMaxWidth()
                 .height(IntrinsicSize.Min)
         ) {
-            // Left accent gradient bar
+            
             Box(
                 modifier = Modifier
                     .width(4.dp)
@@ -91,7 +91,7 @@ fun PersonaCardComposable(
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp, vertical = 22.dp)
             ) {
-                // Persona Header
+                
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = cardUi.persona.icon,
@@ -117,7 +117,7 @@ fun PersonaCardComposable(
 
                 Spacer(modifier = Modifier.height(18.dp))
 
-                // Subtle divider with gradient fade
+                
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -134,7 +134,7 @@ fun PersonaCardComposable(
 
                 Spacer(modifier = Modifier.height(18.dp))
 
-                // Typewriter content
+                
                 if (cardUi.content.isNotBlank()) {
                     TypewriterText(
                         fullText = cardUi.content.trim(),

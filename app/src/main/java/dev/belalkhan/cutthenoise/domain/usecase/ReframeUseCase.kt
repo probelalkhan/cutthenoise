@@ -25,11 +25,11 @@ class ReframeUseCase @Inject constructor(
 
         for (persona in Persona.entries) {
             try {
-                // Collect the full token stream; emit intermediate progress
+                
                 var latestContent = ""
                 repository.reframe(persona, userInput).collect { accumulated ->
                     latestContent = accumulated
-                    // Emit progress with the currently-streaming card
+                    
                     val inProgressCard = PersonaCard(persona, latestContent)
                     emit(
                         ReframeState.Processing(
@@ -38,7 +38,7 @@ class ReframeUseCase @Inject constructor(
                     )
                 }
 
-                // Mark this persona as completed
+                
                 completedCards.add(PersonaCard(persona, latestContent))
                 emit(ReframeState.Processing(completedCards.toList()))
             } catch (e: Exception) {
@@ -47,7 +47,7 @@ class ReframeUseCase @Inject constructor(
             }
         }
 
-        // All personas completed — signal done
+        
         emit(ReframeState.Done(completedCards.toList()))
     }
 }
