@@ -19,5 +19,8 @@ interface ReframeDao {
     @Query("SELECT * FROM reframes ORDER BY createdAt DESC LIMIT :limit")
     fun getRecent(limit: Int): Flow<List<ReframeEntity>>
 
+    @Query("SELECT * FROM reframes WHERE id = :id")
+    fun getById(id: Long): ReframeEntity?
+
 
 }

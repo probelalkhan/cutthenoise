@@ -139,6 +139,7 @@ fun PersonaCardComposable(
                     TypewriterText(
                         fullText = cardUi.content.trim(),
                         isAnimating = cardUi.isGenerating,
+                        shouldAnimate = cardUi.shouldAnimate,
                         modifier = Modifier.fillMaxWidth()
                     )
                 } else if (cardUi.isGenerating) {

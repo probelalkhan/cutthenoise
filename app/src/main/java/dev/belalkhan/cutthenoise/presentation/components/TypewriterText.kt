@@ -38,11 +38,14 @@ fun TypewriterText(
     isAnimating: Boolean,
     modifier: Modifier = Modifier,
     textColor: Color = MaterialTheme.colorScheme.onSurface,
-    charDelayMs: Long = 25L
+    charDelayMs: Long = 25L,
+    shouldAnimate: Boolean = true
 ) {
-    var visibleCharCount by rememberSaveable { mutableIntStateOf(0) }
-    var hasCompletedOnce by rememberSaveable { mutableStateOf(false) }
     val targetCount = fullText.length
+    var visibleCharCount by rememberSaveable { 
+        mutableIntStateOf(if (shouldAnimate) 0 else targetCount) 
+    }
+    var hasCompletedOnce by rememberSaveable { mutableStateOf(!shouldAnimate) }
 
     // If the text was already fully revealed once, show it instantly
     if (hasCompletedOnce && visibleCharCount < targetCount) {

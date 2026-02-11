@@ -19,5 +19,6 @@ sealed interface ReframeUiState {
 data class PersonaCardUi(
     val persona: Persona,
     val content: String,
-    val isGenerating: Boolean
+    val isGenerating: Boolean,
+    val shouldAnimate: Boolean = true
 )

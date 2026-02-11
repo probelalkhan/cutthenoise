@@ -1,5 +1,8 @@
 package dev.belalkhan.cutthenoise.presentation.result
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,14 +32,49 @@ class ResultViewModel @Inject constructor(
     private val _isSaved = MutableStateFlow(false)
     val isSaved: StateFlow<Boolean> = _isSaved.asStateFlow()
 
-    // The thought passed from the previous screen
-    val thought: String = checkNotNull(savedStateHandle["thought"])
+    // The thought text, updated either from args or DB
+    var thought by mutableStateOf("")
+        private set
 
     init {
-        generateReframe()
+        val rawInput = checkNotNull(savedStateHandle.get<String>("thought"))
+        
+        if (rawInput.startsWith("id:")) {
+            val id = rawInput.removePrefix("id:").toLongOrNull()
+            if (id != null) {
+                loadReframe(id)
+            } else {
+                _uiState.value = ReframeUiState.Error("Invalid Request ID")
+            }
+        } else {
+            thought = rawInput
+            generateReframe()
+        }
+    }
+
+    private fun loadReframe(id: Long) {
+        viewModelScope.launch {
+            val entity = repository.getReframeById(id)
+            if (entity != null) {
+                thought = entity.thought
+                _isSaved.value = true
+                
+                // Create Done state with no animation
+                val cards = listOf(
+                    PersonaCardUi(Persona.STOIC, entity.stoicResponse, isGenerating = false, shouldAnimate = false),
+                    PersonaCardUi(Persona.STRATEGIST, entity.strategistResponse, isGenerating = false, shouldAnimate = false),
+                    PersonaCardUi(Persona.OPTIMIST, entity.optimistResponse, isGenerating = false, shouldAnimate = false)
+                )
+                _uiState.value = ReframeUiState.Done(cards)
+            } else {
+                _uiState.value = ReframeUiState.Error("Reframe history not found")
+            }
+        }
     }
 
     private fun generateReframe() {
+        if (thought.isBlank()) return
+        
         viewModelScope.launch {
             reframeUseCase(thought).collect { state ->
                 _uiState.value = mapToUiState(state)
@@ -49,8 +87,6 @@ class ResultViewModel @Inject constructor(
         if (currentState is ReframeUiState.Done && !_isSaved.value) {
             viewModelScope.launch {
                 val cards = currentState.cards
-                // We assume the order is Stoic, Strategist, Optimist based on the enum order
-                // or we can find them by persona type to be safe.
                 val stoic = cards.find { it.persona == Persona.STOIC }?.content ?: ""
                 val strategist = cards.find { it.persona == Persona.STRATEGIST }?.content ?: ""
                 val optimist = cards.find { it.persona == Persona.OPTIMIST }?.content ?: ""
@@ -74,13 +110,12 @@ class ResultViewModel @Inject constructor(
                 val totalPersonas = Persona.entries.size
                 val cards = state.completedCards.mapIndexed { index, card ->
                     val isLast = index == state.completedCards.lastIndex
-                    // Only mark as generating if this is the last card AND
-                    // we haven't completed all personas yet
                     val isStillStreaming = isLast && state.completedCards.size < totalPersonas
                     PersonaCardUi(
                         persona = card.persona,
                         content = card.content,
-                        isGenerating = isStillStreaming
+                        isGenerating = isStillStreaming,
+                        shouldAnimate = true // Always animate for new generation
                     )
                 }
                 ReframeUiState.Processing(cards = cards)
@@ -91,7 +126,8 @@ class ResultViewModel @Inject constructor(
                     PersonaCardUi(
                         persona = card.persona,
                         content = card.content,
-                        isGenerating = false
+                        isGenerating = false,
+                        shouldAnimate = true // Maintained for consistency if verifying
                     )
                 }
                 ReframeUiState.Done(cards = cards)

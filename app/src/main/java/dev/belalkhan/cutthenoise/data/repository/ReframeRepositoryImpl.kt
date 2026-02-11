@@ -36,4 +36,10 @@ class ReframeRepositoryImpl @Inject constructor(
     override fun getRecentReframes(limit: Int): Flow<List<ReframeEntity>> {
         return dao.getRecent(limit)
     }
+
+    override suspend fun getReframeById(id: Long): ReframeEntity? {
+        return withContext(Dispatchers.IO) {
+            dao.getById(id)
+        }
+    }
 }
