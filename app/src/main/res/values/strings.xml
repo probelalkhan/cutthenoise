@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">CutTheNoise</string>
+    <string name="about_title">About CutTheNoise</string>
+    <string name="about_message">CutTheNoise helps you reframe your stress through three powerful perspectives: Stoic, Strategist, and Optimist. Gain clarity, reduce stress, and find actionable solutions.</string>
+    <string name="version_label">Version 1.0.0</string>
+    <string name="close">Close</string>
+    <string name="search_hint">Search</string>
+    <string name="previous_reframes">Previous Reframes</string>
+    <string name="input_placeholder">Message CutTheNoise</string>
+    <string name="punchline">Reframe your stress\nthrough 3 perspectives</string>
+    <string name="your_thought">YOUR THOUGHT</string>
+    <string name="swipe_hint">Swipe to explore perspectives</string>
+    <string name="saved_to_journal">Saved to Journal</string>
+    <string name="save_result">Save Result</string>
+    <string name="contemplating">Contemplating...</string>
+    <string name="missing_input">Missing thought input</string>
+    <string name="invalid_id">Invalid Request ID</string>
+    <string name="history_not_found">Reframe history not found</string>
+    <string name="back_button">Back</string>
+</resources>
