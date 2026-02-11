@@ -6,10 +6,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import android.util.Log
-import dev.belalkhan.cutthenoise.llm.NativeLlmEngine
+import dev.belalkhan.cutthenoise.data.local.llm.LlmInferenceSource
 
 class AnalyzerViewModel(
-    private val llmEngine: NativeLlmEngine
+    private val llmEngine: LlmInferenceSource
 ) : ViewModel() {
 
     private val tag = "CutTheNoiseXX"
