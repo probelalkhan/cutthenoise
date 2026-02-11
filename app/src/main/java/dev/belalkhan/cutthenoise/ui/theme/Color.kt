@@ -2,10 +2,27 @@ package dev.belalkhan.cutthenoise.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+// === Core Palette: "Clarity in Chaos" ===
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// Backgrounds
+val NightBlack = Color(0xFF121212)
+val DarkCharcoal = Color(0xFF1E1E1E)
+val SurfaceElevated = Color(0xFF2A2A2A)
+
+// Primary Accent
+val ElectricTeal = Color(0xFF03DAC5)
+val ElectricTealDim = Color(0xFF018786)
+
+// Persona Colors
+val SlateBlueStoic = Color(0xFF7E8AA2)
+val EmeraldGreenStrategist = Color(0xFF2ECC71)
+val SunsetOrangeOptimist = Color(0xFFF39C12)
+
+// Text
+val TextPrimary = Color(0xFFE0E0E0)
+val TextSecondary = Color(0xFF9E9E9E)
+val TextOnAccent = Color(0xFF000000)
+
+// Utility
+val ErrorRed = Color(0xFFCF6679)
+val DividerDark = Color(0xFF333333)
