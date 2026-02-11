@@ -12,12 +12,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -78,13 +82,14 @@ fun InputScreen(
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            // Custom Toolbar
+            // Custom Toolbar matching design structure
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .windowInsetsPadding(WindowInsets.statusBars)
                     .padding(horizontal = 16.dp, vertical = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.Start
             ) {
                 // Navigation Drawer Button (Circle with 2 lines)
                 Box(
@@ -92,7 +97,7 @@ fun InputScreen(
                         .size(40.dp)
                         .clip(CircleShape)
                         .background(DarkCharcoal)
-                        .clickable { /* No drawer request in "Refined" plan, but button required visually */ },
+                        .clickable { /* No drawer request in refined plan */ },
                     contentAlignment = Alignment.Center
                 ) {
                    Canvas(modifier = Modifier.size(18.dp)) {
@@ -120,23 +125,22 @@ fun InputScreen(
                    }
                 }
 
-                // "CutTheNoise" Label
+                Spacer(modifier = Modifier.width(12.dp))
+
+                // "CutTheNoise" Pill Label
                 Box(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(NightBlack) // Slightly lighter than bg? Or DarkCharcoal
-                         .padding(horizontal = 16.dp, vertical = 8.dp)
+                        .clip(RoundedCornerShape(24.dp)) // More rounded pill shape
+                        .background(DarkCharcoal) // Matching button bg 
+                        .padding(horizontal = 20.dp, vertical = 10.dp) // Generous padding like in image
                 ) {
                    Text(
                        text = "CutTheNoise",
-                       style = MaterialTheme.typography.labelLarge,
-                       color = TextPrimary.copy(alpha = 0.8f),
-                       fontWeight = FontWeight.Bold
+                       style = MaterialTheme.typography.titleMedium, // Slightly larger
+                       color = TextPrimary,
+                       fontWeight = FontWeight.SemiBold
                    )
                 }
-
-                // Spacer to balance the layout (optional, or maybe profile icon? User didn't ask)
-                Spacer(modifier = Modifier.size(40.dp)) 
             }
         }
     ) { innerPadding ->
@@ -145,7 +149,7 @@ fun InputScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            // Center Content (Logo + Text) - Weight 1 to push bottom bar down
+            // Center Content (Logo + Punchline only)
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -158,34 +162,16 @@ fun InputScreen(
                 Image(
                     painter = painterResource(id = R.drawable.ic_ctn_logo),
                     contentDescription = "CutTheNoise Logo",
-                    modifier = Modifier.size(80.dp)
+                    modifier = Modifier.size(120.dp)
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // App Title
+                // Punchline (Increased size)
                 Text(
-                    text = buildAnnotatedString {
-                        withStyle(SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
-                            append("Cut")
-                        }
-                        withStyle(SpanStyle(color = ElectricTeal, fontWeight = FontWeight.ExtraBold)) {
-                            append("The")
-                        }
-                        withStyle(SpanStyle(color = MaterialTheme.colorScheme.onBackground)) {
-                            append("Noise")
-                        }
-                    },
-                    style = MaterialTheme.typography.displayLarge,
-                    textAlign = TextAlign.Center
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(
-                    text = "Reframe your stress through 3 perspectives",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = TextSecondary.copy(alpha = 0.7f),
+                    text = "Reframe your stress\nthrough 3 perspectives",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = TextSecondary.copy(alpha = 0.5f), // Increased alpha
                     textAlign = TextAlign.Center
                 )
             }
@@ -213,7 +199,7 @@ fun InputScreen(
                                 Column(modifier = Modifier.padding(12.dp)) {
                                     Text(
                                         text = reframe.thought,
-                                        style = MaterialTheme.typography.bodySmall,
+                                        style = MaterialTheme.typography.bodyMedium, // Increased from bodySmall
                                         color = TextPrimary,
                                         maxLines = 3,
                                         overflow = TextOverflow.Ellipsis
@@ -245,7 +231,10 @@ fun InputScreen(
                              },
                              modifier = Modifier
                                  .size(40.dp)
-                                 .background(if (isListening) ElectricTeal.copy(alpha = 0.2f) else Color.Transparent, CircleShape)
+                                 .background(
+                                     if (isListening) ElectricTeal.copy(alpha = 0.2f) else Color.Transparent,
+                                     CircleShape
+                                 )
                          ) {
                              Icon(
                                  imageVector = if (isListening) Icons.Default.Stop else Icons.Default.Mic,
@@ -293,7 +282,10 @@ fun InputScreen(
                              enabled = isSendEnabled,
                              modifier = Modifier
                                  .size(40.dp)
-                                 .background(if (isSendEnabled) ElectricTeal else Color.Transparent, CircleShape)
+                                 .background(
+                                     if (isSendEnabled) ElectricTeal else Color.Transparent,
+                                     CircleShape
+                                 )
                          ) {
                              Icon(
                                  imageVector = Icons.Default.ArrowUpward,
