@@ -21,3 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "CutTheNoise"
 include(":app")
+
+// Include :magic-qa only for debug/dev builds (default: true)
+val includeDebugModules: String by settings
+if (includeDebugModules != "false") {
+    include(":magic-qa")
+}
